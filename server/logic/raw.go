@@ -7,8 +7,8 @@ import (
 )
 
 func SetKey(rbd *redis.Client, ctx context.Context, key string, value string) error {
-	// value = "shivang:" + value
-	err := rbd.Set(ctx, key, "shivang:"+value, 0).Err()
+	value = "shivang:" + value
+	err := rbd.Set(ctx, key, value, 0).Err()
 	return err
 }
 
