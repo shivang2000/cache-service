@@ -28,7 +28,7 @@ note: make sure z_generated is populated with grpc auto generated code if not it
               cache.proto
   
 # Assumption while implementing this code 
-1. The user is Unique with respect Name and RollNo attributes. For eg. Name Alice and RollNo 15 are not present with two different class like IV and V since the requirement said that Getuser will be retrived based on Name and RollNo credentials. 
+1. The user is Unique with respect to Name and RollNo attributes. For eg. Name Alice and RollNo 15 are not present with two different class like IV and V since the requirement said that Getuser will be retrived based on Name and RollNo credentials. 
 
 # if you want to create customer client then refer this 
 1. your run the server code as mention in the How to run the project section.
