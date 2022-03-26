@@ -30,7 +30,7 @@ note: make sure z_generated is populated with grpc auto generated code if not it
 # Assumption while implementing this code 
 1. The user is Unique with respect Name and RollNo attributes. For eg. Name Alice and RollNo 15 are not present with two different class like IV and V since the requirement said that Getuser will be retrived based on Name and RollNo credentials. 
 
-# if you want to create custome client then refer this 
+# if you want to create customer client then refer this 
 1. your run the server code as mention in the How to run the project section.
 2. to implement custom client you can use ConnectToCache function from client/client package.
 ConnectTocache function return a CacheClient object if the connect to cache service is successfull or else it returns error 
