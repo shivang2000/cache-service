@@ -35,3 +35,9 @@ note: make sure z_generated is populated with grpc auto generated code if not it
 2. to implement custom client you can use ConnectToCache function from client/client package.
 ConnectTocache function return a CacheClient object if the connect to cache service is successfull or else it returns error 
 if the connection is successfull. You can use CacheClient object to call rpc method based on requirements with respective arguments.
+
+
+# developed System specification
+os: Ubuntu 20.04
+goPath: ~/go with the go install all the bin, src, pkg files
+repository path on local: ~/projects/cache--service
