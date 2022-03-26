@@ -40,6 +40,6 @@ if the connection is successfull. You can use CacheClient object to call rpc met
 # developed System specification
 os: Ubuntu 20.04
 
-goPath: ~/go with the go install all the bin, src, pkg files
+goPath: ~/go where default  go install all the bin, src, pkg files
 
 repository path on local: ~/projects/cache--service
