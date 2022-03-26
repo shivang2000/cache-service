@@ -7,6 +7,20 @@ option go_package = "example.com/cache-service;cacheService";
 service cache {
     rpc Set (SetRequest) returns (Empty) {}
     rpc Get (Key) returns (Value) {}
+    rpc SetUser (User) returns (Empty) {}
+    rpc GetUser (GetUserRequest) returns (User) {} 
+}
+
+message User {
+    string Name = 1;
+    string class = 2;
+    int64 RollNum = 3;
+    bytes Metadata = 4;
+}
+
+message GetUserRequest {
+    string name = 1;
+    int64 roll = 2;
 }
 
 message Value {

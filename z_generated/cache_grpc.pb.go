@@ -20,6 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 type CacheClient interface {
 	Set(ctx context.Context, in *SetRequest, opts ...grpc.CallOption) (*Empty, error)
 	Get(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Value, error)
+	SetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error)
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
 type cacheClient struct {
@@ -48,12 +50,32 @@ func (c *cacheClient) Get(ctx context.Context, in *Key, opts ...grpc.CallOption)
 	return out, nil
 }
 
+func (c *cacheClient) SetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/proto.cache/SetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cacheClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/proto.cache/GetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CacheServer is the server API for Cache service.
 // All implementations must embed UnimplementedCacheServer
 // for forward compatibility
 type CacheServer interface {
 	Set(context.Context, *SetRequest) (*Empty, error)
 	Get(context.Context, *Key) (*Value, error)
+	SetUser(context.Context, *User) (*Empty, error)
+	GetUser(context.Context, *GetUserRequest) (*User, error)
 	mustEmbedUnimplementedCacheServer()
 }
 
@@ -66,6 +88,12 @@ func (UnimplementedCacheServer) Set(context.Context, *SetRequest) (*Empty, error
 }
 func (UnimplementedCacheServer) Get(context.Context, *Key) (*Value, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedCacheServer) SetUser(context.Context, *User) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetUser not implemented")
+}
+func (UnimplementedCacheServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedCacheServer) mustEmbedUnimplementedCacheServer() {}
 
@@ -116,6 +144,42 @@ func _Cache_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cache_SetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CacheServer).SetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.cache/SetUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CacheServer).SetUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cache_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CacheServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.cache/GetUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CacheServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cache_ServiceDesc is the grpc.ServiceDesc for Cache service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +194,14 @@ var Cache_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Get",
 			Handler:    _Cache_Get_Handler,
+		},
+		{
+			MethodName: "SetUser",
+			Handler:    _Cache_SetUser_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _Cache_GetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
